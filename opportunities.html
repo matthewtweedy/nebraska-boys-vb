@@ -1,0 +1,504 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nebraska Volleyball Opportunities | Nebraska Boys Volleyball</title>
+  <meta name="description" content="Find boys volleyball clinics, camps, open gyms, and events across Nebraska. Nebraska Boys Volleyball events plus community listings from clubs and programs statewide.">
+  <meta name="keywords" content="boys volleyball camps Nebraska, volleyball clinics Nebraska, volleyball open gym Nebraska, boys volleyball events Nebraska, UNO volleyball camp, youth volleyball Nebraska">
+  <meta name="author" content="Nebraska Volleyball Development Association">
+  <link rel="canonical" href="https://www.nebraskaboysvolleyball.org/opportunities.html">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.nebraskaboysvolleyball.org/opportunities.html">
+  <meta property="og:title" content="Nebraska Boys Volleyball Opportunities">
+  <meta property="og:description" content="The go-to resource for boys volleyball camps, clinics, open gyms, and events across Nebraska.">
+  <meta property="og:site_name" content="Nebraska Boys Volleyball">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Nebraska Boys Volleyball Opportunities">
+  <meta name="twitter:description" content="Camps, clinics, open gyms, and events across Nebraska &mdash; Nebraska Boys Volleyball and community listings.">
+
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/favicon.png">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* -- Calendar responsive -- */
+    .cal-desktop { display: block; }
+    .cal-mobile  { display: none; }
+
+    .calendar-wrap {
+      background: var(--white);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      margin-top: 32px;
+    }
+
+    .calendar-wrap iframe {
+      display: block;
+      width: 100%;
+      border: none;
+    }
+
+    /* -- Flyer gallery -- */
+    .flyer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 32px;
+    }
+
+    .flyer-card {
+      cursor: pointer;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: transform 0.15s, border-color 0.15s;
+      background: rgba(255,255,255,0.05);
+    }
+
+    .flyer-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--red-light);
+    }
+
+    .flyer-card img {
+      width: 100%;
+      display: block;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+    }
+
+    .flyer-card-label {
+      padding: 12px 14px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.3;
+    }
+
+    .flyer-card-label span {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 400;
+      color: rgba(255,255,255,0.45);
+      margin-top: 3px;
+    }
+
+    /* -- Lightbox -- */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .lightbox.open { display: flex; }
+
+    .lightbox-inner {
+      position: relative;
+      max-width: 640px;
+      width: 100%;
+    }
+
+    .lightbox-inner img {
+      width: 100%;
+      border-radius: 8px;
+      display: block;
+      max-height: 88vh;
+      object-fit: contain;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -16px;
+      right: -16px;
+      width: 36px;
+      height: 36px;
+      background: var(--red);
+      color: var(--white);
+      border: none;
+      border-radius: 50%;
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox-caption {
+      margin-top: 12px;
+      text-align: center;
+      color: rgba(255,255,255,0.6);
+      font-size: 0.88rem;
+    }
+
+    /* -- Badge -- */
+    .badge {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 20px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      vertical-align: middle;
+      margin-left: 8px;
+    }
+
+    .badge-nbv {
+      background: rgba(208,35,26,0.15);
+      color: var(--red);
+    }
+
+    .badge-ext {
+      background: var(--light-gray);
+      color: var(--mid-gray);
+    }
+
+    /* -- CTA strip -- */
+    .cta-strip {
+      background: var(--white);
+      border-radius: 8px;
+      padding: 24px 28px;
+      margin-top: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      border-left: 4px solid var(--red);
+    }
+
+    .cta-strip-text {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .cta-strip-sub {
+      font-size: 0.88rem;
+      color: var(--mid-gray);
+      margin-top: 2px;
+    }
+
+    @media (max-width: 680px) {
+      .cal-desktop { display: none; }
+      .cal-mobile  { display: block; }
+
+      .flyer-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .cta-strip {
+        align-items: stretch;
+        padding: 22px 20px;
+      }
+
+      .cta-strip .btn {
+        width: 100%;
+        text-align: center;
+      }
+
+      .lightbox {
+        padding: 18px;
+      }
+
+      .lightbox-close {
+        top: 8px;
+        right: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="index.html">
+    <img class="nav-logo" src="images/boys_logo_resize.png" alt="Nebraska Boys Volleyball logo">
+    <span class="nav-brand-text">Nebraska <span>Boys</span> Volleyball</span>
+  </a>
+  <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="programs.html">Programs</a></li>
+    <li><a href="opportunities.html" class="active">Opportunities</a></li>
+    <li><a href="support.html">Support</a></li>
+    <li><a href="get-involved.html" class="nav-cta">Get Involved</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div class="hero-tag">Nebraska Boys Volleyball</div>
+    <h1>All the Opportunities.<br>One Place.</h1>
+    <p>Nebraska Boys Volleyball events, community clinics, college camps, open gyms &mdash; everything boys volleyball in Nebraska, listed here.</p>
+  </div>
+</section>
+
+<!-- CALENDAR -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-label">Next Opportunities</div>
+    <h2>Start Here</h2>
+    <p>The first Nebraska Boys Volleyball event is coming soon. Until the date and gym are final, this page gives families one clear next step: get on the list and we will send the confirmed details.</p>
+
+    <div class="event-grid">
+      <div class="event-card featured">
+        <div class="event-date">Target Window: Mid-June 2026</div>
+        <h3>First Nebraska Boys Volleyball Clinic</h3>
+        <div class="event-meta">
+          <div><strong>Location:</strong> Nebraska gym to be announced</div>
+          <div><strong>Players:</strong> Boys of all skill levels</div>
+          <div><strong>Cost:</strong> Low cost</div>
+        </div>
+        <p>Sign up now and we will email the date, city, gym, and age-track details as soon as registration opens.</p>
+        <a href="get-involved.html" class="btn btn-primary">Get Clinic Updates</a>
+      </div>
+
+      <div class="event-card">
+        <div class="event-date">Now Open</div>
+        <h3>Add a Community Event</h3>
+        <div class="event-meta">
+          <div><strong>For:</strong> Camps, clinics, open gyms, club events</div>
+          <div><strong>Cost to list:</strong> Free</div>
+        </div>
+        <p>Running a boys volleyball opportunity in Nebraska? Send it in and we will help families find it.</p>
+        <a href="mailto:info@nebraskaboysvolleyball.org" class="btn btn-primary">Send Event</a>
+      </div>
+    </div>
+
+    <div class="event-note">Once the first Nebraska Boys Volleyball clinic is confirmed, update this section with the exact date, city, gym, and registration link. That gives Google Ads visitors a fast answer after the click.</div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0;">
+  <div class="section-inner">
+    <div class="section-label">Full Calendar</div>
+    <h2>What's Coming Up</h2>
+    <p>Nebraska Boys Volleyball clinics, open gyms, and community events from clubs and programs across Nebraska. All in one place.</p>
+
+    <div class="calendar-wrap">
+      <!-- Desktop: month view -->
+      <div class="cal-desktop">
+        <iframe
+          src="https://calendar.google.com/calendar/embed?src=baab201ef44ffde9aba1c2c35383f0565a7fe5b9fc8230446f8d9ffed6333a62%40group.calendar.google.com&ctz=America%2FChicago"
+          style="border:0"
+          width="100%"
+          height="620"
+          frameborder="0"
+          scrolling="no"
+          title="Nebraska Boys Volleyball Calendar">
+        </iframe>
+      </div>
+
+      <!-- Mobile: agenda view -->
+      <div class="cal-mobile">
+        <iframe
+          src="https://calendar.google.com/calendar/embed?src=baab201ef44ffde9aba1c2c35383f0565a7fe5b9fc8230446f8d9ffed6333a62%40group.calendar.google.com&ctz=America%2FChicago&mode=AGENDA"
+          style="border:0"
+          width="100%"
+          height="500"
+          frameborder="0"
+          scrolling="no"
+          title="Nebraska Boys Volleyball Calendar">
+        </iframe>
+      </div>
+    </div>
+
+    <!-- Want to add an event -->
+    <div class="cta-strip">
+      <div>
+        <div class="cta-strip-text">Want to add an event?</div>
+        <div class="cta-strip-sub">Running a clinic, camp, or open gym? Send us the details and we'll get it listed &mdash; free.</div>
+      </div>
+      <a href="mailto:info@nebraskaboysvolleyball.org" class="btn btn-primary">Email Us</a>
+    </div>
+  </div>
+</section>
+
+<!-- FLYER GALLERY -->
+<section class="section section-alt" style="background: var(--navy);">
+  <div class="section-inner">
+    <div class="section-label">Event Flyers</div>
+    <h2 style="color: var(--white);">Browse Upcoming Events</h2>
+    <p style="color: rgba(255,255,255,0.6);">Click any flyer to view full size. <span style="color: var(--red-light);">Nebraska Boys Volleyball</span> events are ours &mdash; everything else is a community listing.</p>
+
+    <div class="flyer-grid">
+
+      <!-- ==================================================
+           HOW TO ADD A NEW FLYER:
+           1. Create a "flyers" folder in your repo root
+           2. Drop your image in there (JPG or PNG)
+           3. Copy one flyer-card block below and paste it
+           4. Update src, onclick caption, alt text, label & date
+           5. Save, commit, push
+      ================================================== -->
+
+      <div class="flyer-card" onclick="openLightbox('flyers/uno-summer-camp.png', 'UNO Maverick Boys Camp &middot; June 18 &middot; Omaha')">
+        <img src="flyers/uno-summer-camp.png" alt="UNO Maverick Boys Camp flyer"
+             onerror="this.src=''; this.parentElement.style.display='none'">
+        <div class="flyer-card-label">
+          UNO Maverick Boys Camp
+          <span>June 18 &middot; Omaha</span>
+        </div>
+      </div>
+
+      <div class="flyer-card" onclick="openLightbox('flyers/out-of-system.png', 'Out of System VB &middot; June 25')">
+        <img src="flyers/out-of-system.png" alt="Out of System VB flyer"
+             onerror="this.src=''; this.parentElement.style.display='none'">
+        <div class="flyer-card-label">
+          Out of System VB
+          <span>June 25 &middot; Great Plains Regional</span>
+        </div>
+      </div>
+
+      <div class="flyer-card" onclick="openLightbox('flyers/AVC_boys_clinic.png', 'AVC Boys Clinic; June 5')">
+        <img src="flyers/AVC_boys_clinic.png" alt="AVC Boys Clinic"
+             onerror="this.src=''; this.parentElement.style.display='none'">
+        <div class="flyer-card-label">
+          AVC Boys Clinic
+          <span>June 5</span>
+        </div>
+      </div>
+
+      <div class="flyer-card" onclick="openLightbox('flyers/envy_4v4.png', 'Envy 4v4 &middot; Starting June 6')">
+        <img src="flyers/envy_4v4.png" alt="Envy 4v4 flyer"
+             onerror="this.src=''; this.parentElement.style.display='none'">
+        <div class="flyer-card-label">
+          Envy 4v4
+          <span>Starting June 6</span>
+        </div>
+      </div>
+
+      <div class="flyer-card" onclick="openLightbox('flyers/banzai-open-gym.png', 'Banzai Open Gym &middot; Wednesdays 6&ndash;8pm')">
+        <img src="flyers/banzai-open-gym.png" alt="Banzai Open Gym flyer"
+             onerror="this.src=''; this.parentElement.style.display='none'">
+        <div class="flyer-card-label">
+          Banzai Open Gym
+          <span>Wednesdays 6&ndash;8pm &middot; Starting May 13</span>
+        </div>
+      </div>
+
+      <div class="flyer-card" onclick="openLightbox('flyers/banzai_camp.png', 'Banzai Boys Camp &middot; June 8')">
+        <img src="flyers/banzai_camp.png" alt="Banzai Camp"
+             onerror="this.src=''; this.parentElement.style.display='none'">
+        <div class="flyer-card-label">
+          Banzai Boys Camp
+          <span>June 8</span>
+        </div>
+      </div>
+
+      <div class="flyer-card" onclick="openLightbox('flyers/4v4-rotating-pairs.png', '4v4 Rotating Pairs &middot; Bellevue University')">
+        <img src="flyers/4v4-rotating-pairs.png" alt="4v4 Rotating Pairs flyer"
+             onerror="this.src=''; this.parentElement.style.display='none'">
+        <div class="flyer-card-label">
+          4v4 Rotating Pairs
+          <span>Bellevue University</span>
+        </div>
+      </div>
+
+      <div class="flyer-card" onclick="openLightbox('flyers/river-city-open-gym.png', 'River City Open Gym &middot; Fridays 5&ndash;7pm')">
+        <img src="flyers/river-city-open-gym.png" alt="River City Open Gym flyer"
+             onerror="this.src=''; this.parentElement.style.display='none'">
+        <div class="flyer-card-label">
+          River City Open Gym
+          <span>Fridays 5&ndash;7pm &middot; Starting June 5</span>
+        </div>
+      </div>
+
+      <div class="flyer-card" onclick="openLightbox('flyers/hf_boys_clinic.png', 'HF Boys Clinic &middot; June 13')">
+        <img src="flyers/hf_boys_clinic.png" alt="HF Boys Clinic flyer"
+             onerror="this.src=''; this.parentElement.style.display='none'">
+        <div class="flyer-card-label">
+          HF Boys Clinic
+          <span>June 13</span>
+        </div>
+      </div>
+
+      <div class="flyer-card" onclick="openLightbox('flyers/nebraska_one_june.png', 'Nebraska One &middot; June 18')">
+        <img src="flyers/nebraska_one_june.png" alt="Nebraska One flyer for June 18"
+             onerror="this.src=''; this.parentElement.style.display='none'">
+        <div class="flyer-card-label">
+          Nebraska One
+          <span>June 18</span>
+        </div>
+      </div>
+
+      <div class="flyer-card" onclick="openLightbox('flyers/nebraska_one_july.png', 'Nebraska One &middot; July 29')">
+        <img src="flyers/nebraska_one_july.png" alt="Nebraska One flyer for July 29"
+             onerror="this.src=''; this.parentElement.style.display='none'">
+        <div class="flyer-card-label">
+          Nebraska One
+          <span>July 29</span>
+        </div>
+      </div>
+
+      <!-- PASTE NEW FLYER CARDS ABOVE THIS LINE -->
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section" style="text-align:center; padding-top:60px; padding-bottom:60px;">
+  <div class="section-inner">
+    <div class="section-label">Nebraska Boys Volleyball Programming</div>
+    <h2>Want to Play in a Nebraska Boys Volleyball Clinic?</h2>
+    <p style="max-width:480px; margin: 12px auto 32px; color:#555;">Nebraska Boys Volleyball runs low-cost clinics and open gyms across Nebraska. Sign up and we'll let you know when we're in your area.</p>
+    <a href="get-involved.html" class="btn btn-primary" style="font-size:1rem; padding:16px 40px;">Sign Up</a>
+  </div>
+</section>
+
+<!-- Lightbox overlay -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+    <img id="lightbox-img" src="" alt="">
+    <div class="lightbox-caption" id="lightbox-caption"></div>
+  </div>
+</div>
+
+<footer>
+  <strong>Nebraska Boys Volleyball</strong>
+  Nebraska Volleyball Development Association &nbsp;|&nbsp; 501(c)(3) Nonprofit<br>
+  <a href="mailto:info@nebraskaboysvolleyball.org">info@nebraskaboysvolleyball.org</a>
+  <div class="social-links" aria-label="Nebraska Boys Volleyball social links">
+    <a href="https://www.instagram.com/ne.boys.vb" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://www.facebook.com/profile.php?id=61557560480954" target="_blank" rel="noopener">Facebook</a>
+    <a href="https://www.tiktok.com/@ne.boys.hs.vb" target="_blank" rel="noopener">TikTok</a>
+    <a href="https://linktr.ee/neboyshsvb" target="_blank" rel="noopener">All Links</a>
+  </div>  <br><br>
+  <a href="index.html">Home</a> &nbsp;&middot;&nbsp; <a href="about.html">About</a> &nbsp;&middot;&nbsp; <a href="programs.html">Programs</a> &nbsp;&middot;&nbsp; <a href="opportunities.html">Opportunities</a> &nbsp;&middot;&nbsp; <a href="get-involved.html">Get Involved</a> &nbsp;&middot;&nbsp; <a href="support.html">Support Us</a>
+</footer>
+
+<script>
+  function openLightbox(src, caption) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox-caption').textContent = caption;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox(e) {
+    if (e && e.target !== document.getElementById('lightbox') && !e.target.classList.contains('lightbox-close')) return;
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeLightbox();
+  });
+</script>
+
+</body>
+</html>

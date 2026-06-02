@@ -229,6 +229,20 @@ nav {
   background: rgba(255,255,255,0.08);
 }
 
+.section-alt .btn-outline,
+.section[style*="background: var(--red)"] .btn-outline {
+  background: var(--white);
+  color: var(--navy);
+  border-color: var(--white);
+}
+
+.section-alt .btn-outline:hover,
+.section[style*="background: var(--red)"] .btn-outline:hover {
+  background: var(--off-white);
+  border-color: var(--off-white);
+  transform: translateY(-1px);
+}
+
 /* -- STAT BAR -- */
 .stat-bar {
   background: var(--red);
@@ -640,6 +654,11 @@ nav {
 
 .tier-card.featured .tier-desc {
   color: rgba(255,255,255,0.7);
+}
+
+.givebutter-embed {
+  max-width: 640px;
+  margin: 40px auto 0;
 }
 
 /* -- SUPPORTER WALL -- */

@@ -21,6 +21,9 @@
 
   <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon.png">
   <link rel="apple-touch-icon" href="assets/favicon.png">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIINfQnR3nLYgqDqGIwWaK6PHm9LtYxN2YI="
+        crossorigin="">
   <link rel="stylesheet" href="style.css">
   <style>
     /* -- Calendar responsive -- */
@@ -162,6 +165,260 @@
       color: var(--mid-gray);
     }
 
+    /* -- Opportunities map -- */
+    .map-section .section-inner {
+      max-width: 1120px;
+    }
+
+    .map-section-intro {
+      max-width: 760px;
+    }
+
+    .map-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(300px, 0.8fr);
+      gap: 24px;
+      align-items: start;
+      margin-top: 32px;
+    }
+
+    .map-panel {
+      display: grid;
+      gap: 12px;
+    }
+
+    .map-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .map-action {
+      border: 1px solid rgba(10,31,68,0.16);
+      background: var(--white);
+      color: var(--navy);
+      border-radius: 4px;
+      padding: 8px 12px;
+      font: inherit;
+      font-size: 0.82rem;
+      font-weight: 700;
+      line-height: 1;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+
+    .map-action:hover,
+    .map-action:focus {
+      background: var(--navy);
+      border-color: var(--navy);
+      color: var(--white);
+      outline: none;
+    }
+
+    #opportunities-map {
+      height: 480px;
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid rgba(10,31,68,0.12);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      overflow: hidden;
+      background: var(--light-gray);
+      z-index: 1;
+    }
+
+    .map-list {
+      display: grid;
+      gap: 12px;
+      align-content: start;
+      max-height: 480px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .map-list-item {
+      width: 100%;
+      text-align: left;
+      background: var(--white);
+      border: 1px solid rgba(10,31,68,0.12);
+      border-left: 4px solid var(--mid-gray);
+      border-radius: 8px;
+      padding: 16px;
+      cursor: pointer;
+      transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .map-list-item:hover,
+    .map-list-item:focus {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(10,31,68,0.12);
+      outline: none;
+    }
+
+    .map-list-item.is-nbv {
+      border-left-color: var(--red);
+    }
+
+    .map-list-item.is-community {
+      border-left-color: var(--gold);
+    }
+
+    .map-list-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--navy);
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 6px;
+    }
+
+    .map-list-meta {
+      color: #555;
+      font-size: 0.88rem;
+      line-height: 1.45;
+    }
+
+    .map-empty {
+      background: var(--white);
+      border-radius: 8px;
+      border-left: 4px solid var(--red);
+      padding: 18px 20px;
+      color: var(--navy);
+    }
+
+    .map-marker {
+      width: 34px;
+      height: 34px;
+      border-radius: 50% 50% 50% 6px;
+      transform: rotate(-45deg);
+      border: 3px solid var(--white);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.28);
+      display: grid;
+      place-items: center;
+    }
+
+    .map-marker span {
+      transform: rotate(45deg);
+      color: var(--white);
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .map-marker.is-nbv {
+      background: var(--red);
+    }
+
+    .map-marker.is-community {
+      background: var(--navy);
+    }
+
+    .leaflet-popup-content {
+      margin: 14px 16px;
+      min-width: 220px;
+    }
+
+    .map-popup-title {
+      color: var(--navy);
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .map-popup-meta {
+      color: #555;
+      font-size: 0.9rem;
+      line-height: 1.45;
+    }
+
+    /* Critical Leaflet layout fallback if the CDN stylesheet is unavailable. */
+    .leaflet-container {
+      overflow: hidden;
+      position: relative;
+      touch-action: pan-x pan-y;
+    }
+
+    .leaflet-pane,
+    .leaflet-tile,
+    .leaflet-marker-icon,
+    .leaflet-marker-shadow,
+    .leaflet-tile-container,
+    .leaflet-pane > svg,
+    .leaflet-pane > canvas,
+    .leaflet-zoom-box,
+    .leaflet-image-layer,
+    .leaflet-layer {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    .leaflet-tile,
+    .leaflet-marker-icon,
+    .leaflet-marker-shadow {
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .leaflet-control {
+      position: relative;
+      z-index: 800;
+      pointer-events: auto;
+    }
+
+    .leaflet-control-zoom {
+      border: 1px solid rgba(10,31,68,0.16);
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(10,31,68,0.14);
+    }
+
+    .leaflet-control-zoom a {
+      display: block;
+      width: 34px;
+      height: 34px;
+      background: var(--white);
+      color: var(--navy);
+      font-size: 1.2rem;
+      font-weight: 800;
+      line-height: 34px;
+      text-align: center;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(10,31,68,0.12);
+    }
+
+    .leaflet-control-zoom a:last-child {
+      border-bottom: 0;
+    }
+
+    .leaflet-control-zoom a:hover {
+      background: var(--off-white);
+      color: var(--red);
+    }
+
+    .leaflet-top,
+    .leaflet-bottom {
+      position: absolute;
+      z-index: 1000;
+      pointer-events: none;
+    }
+
+    .leaflet-top {
+      top: 0;
+    }
+
+    .leaflet-right {
+      right: 0;
+    }
+
+    .leaflet-bottom {
+      bottom: 0;
+    }
+
+    .leaflet-left {
+      left: 0;
+    }
+
     /* -- CTA strip -- */
     .cta-strip {
       background: var(--white);
@@ -191,6 +448,20 @@
     @media (max-width: 680px) {
       .cal-desktop { display: none; }
       .cal-mobile  { display: block; }
+
+      .map-shell {
+        grid-template-columns: 1fr;
+      }
+
+      #opportunities-map {
+        height: 340px;
+      }
+
+      .map-list {
+        max-height: none;
+        overflow: visible;
+        padding-right: 0;
+      }
 
       .flyer-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -329,6 +600,27 @@
   </div>
 </section>
 
+<!-- MAP -->
+<section class="section map-section" style="padding-top:0;">
+  <div class="section-inner">
+    <div class="section-label">Map View</div>
+    <h2>Find Clinics Near You</h2>
+    <p class="map-section-intro">Sample map data is loaded from <code>opportunities-map.json</code>. Replace the sample Omaha and Lincoln entries with confirmed clinic locations as they come in.</p>
+
+    <div class="map-shell">
+      <div class="map-panel">
+        <div class="map-actions" aria-label="Map quick zoom controls">
+          <button class="map-action" type="button" data-map-view="all">All Locations</button>
+          <button class="map-action" type="button" data-map-view="omaha">Omaha</button>
+          <button class="map-action" type="button" data-map-view="lincoln">Lincoln</button>
+        </div>
+        <div id="opportunities-map" aria-label="Map of Nebraska boys volleyball opportunities"></div>
+      </div>
+      <div class="map-list" id="opportunities-map-list" aria-label="Opportunity locations"></div>
+    </div>
+  </div>
+</section>
+
 <!-- FLYER GALLERY -->
 <section class="section section-alt" style="background: var(--navy);">
   <div class="section-inner">
@@ -347,7 +639,6 @@
            5. Save, commit, push
       ================================================== -->
 
-      
 
       <div class="flyer-card" onclick="openLightbox('flyers/out-of-system.png', 'Out of System VB &middot; June 25')">
         <img src="flyers/out-of-system.png" alt="Out of System VB flyer"
@@ -359,15 +650,6 @@
       </div>
 
  
-      <div class="flyer-card" onclick="openLightbox('flyers/hf_william_penn.png', 'Out of System VB &middot; June 25')">
-        <img src="flyers/hf_william_penn.png" alt="High Flyers William Penn Camp"
-             onerror="this.src=''; this.parentElement.style.display='none'">
-        <div class="flyer-card-label">
-          High Flyers: William Penn College Camp
-          <span>July 25 &middot; High Flyers</span>
-        </div>
-      </div>
-
 
       <div class="flyer-card" onclick="openLightbox('flyers/envy_4v4.png', 'Envy 4v4 &middot; Starting June 6')">
         <img src="flyers/envy_4v4.png" alt="Envy 4v4 flyer"
@@ -464,6 +746,168 @@
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeLightbox();
   });
+</script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+<script>
+  const mapEl = document.getElementById('opportunities-map');
+  const mapListEl = document.getElementById('opportunities-map-list');
+  const mapViewButtons = document.querySelectorAll('[data-map-view]');
+
+  function escapeHtml(value) {
+    return String(value || '').replace(/[&<>"']/g, function(char) {
+      return {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      }[char];
+    });
+  }
+
+  function makeOpportunityIcon(source) {
+    const isNbv = source === 'nbv';
+    return L.divIcon({
+      className: '',
+      html: `<div class="map-marker ${isNbv ? 'is-nbv' : 'is-community'}"><span>${isNbv ? 'NBV' : '3P'}</span></div>`,
+      iconSize: [34, 34],
+      iconAnchor: [17, 34],
+      popupAnchor: [0, -32]
+    });
+  }
+
+  function markerPopup(item) {
+    const badge = item.source === 'nbv'
+      ? '<span class="badge badge-nbv">NBV</span>'
+      : '<span class="badge badge-ext">3rd Party</span>';
+    const link = item.url
+      ? `<div style="margin-top:10px;"><a href="${escapeHtml(item.url)}">Event details</a></div>`
+      : '';
+
+    return `
+      <div class="map-popup-title">${escapeHtml(item.title)} ${badge}</div>
+      <div class="map-popup-meta">
+        <strong>${escapeHtml(item.type)}</strong><br>
+        ${escapeHtml(item.host)}<br>
+        ${escapeHtml(item.date)}${item.time ? ' &middot; ' + escapeHtml(item.time) : ''}<br>
+        ${escapeHtml(item.address)}
+        ${item.sample ? '<br><em>Sample location</em>' : ''}
+      </div>
+      ${link}
+    `;
+  }
+
+  function renderOpportunityList(items, markers, map) {
+    mapListEl.innerHTML = '';
+
+    items.forEach(function(item) {
+      const button = document.createElement('button');
+      const isNbv = item.source === 'nbv';
+      button.type = 'button';
+      button.className = `map-list-item ${isNbv ? 'is-nbv' : 'is-community'}`;
+      button.innerHTML = `
+        <div class="map-list-title">
+          <span>${escapeHtml(item.title)}</span>
+          <span class="badge ${isNbv ? 'badge-nbv' : 'badge-ext'}">${isNbv ? 'NBV' : '3rd Party'}</span>
+        </div>
+        <div class="map-list-meta">
+          ${escapeHtml(item.type)} &middot; ${escapeHtml(item.city)}<br>
+          ${escapeHtml(item.date)}${item.time ? ' &middot; ' + escapeHtml(item.time) : ''}<br>
+          ${escapeHtml(item.address)}
+        </div>
+      `;
+      button.addEventListener('click', function() {
+        const marker = markers.get(item.id);
+        map.setView([item.lat, item.lng], 13);
+        marker.openPopup();
+      });
+      mapListEl.appendChild(button);
+    });
+  }
+
+  function zoomToItems(map, items) {
+    if (!items.length) return;
+
+    if (items.length === 1) {
+      map.setView([items[0].lat, items[0].lng], 13);
+      return;
+    }
+
+    const bounds = L.latLngBounds(items.map(function(item) {
+      return [item.lat, item.lng];
+    }));
+    map.fitBounds(bounds, { padding: [42, 42], maxZoom: 12 });
+  }
+
+  async function loadOpportunitiesMap() {
+    if (!mapEl || !mapListEl || typeof L === 'undefined') return;
+
+    try {
+      const response = await fetch('opportunities-map.json', { cache: 'no-store' });
+      if (!response.ok) throw new Error('Map data could not be loaded.');
+      const items = await response.json();
+      const validItems = items.filter(function(item) {
+        return Number.isFinite(item.lat) && Number.isFinite(item.lng);
+      });
+
+      if (!validItems.length) {
+        mapListEl.innerHTML = '<div class="map-empty">No map locations are listed yet.</div>';
+        return;
+      }
+
+      const map = L.map(mapEl, {
+        scrollWheelZoom: false,
+        zoomControl: true
+      });
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+
+      const markers = new Map();
+      const markerGroup = L.featureGroup();
+
+      validItems.forEach(function(item) {
+        const marker = L.marker([item.lat, item.lng], {
+          icon: makeOpportunityIcon(item.source)
+        }).bindPopup(markerPopup(item));
+
+        marker.addTo(markerGroup);
+        markers.set(item.id, marker);
+      });
+
+      markerGroup.addTo(map);
+      const featuredItem = validItems.find(function(item) {
+        return item.source === 'nbv';
+      }) || validItems[0];
+      map.setView([featuredItem.lat, featuredItem.lng], 12);
+
+      mapViewButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+          const view = button.getAttribute('data-map-view');
+
+          if (view === 'all') {
+            map.fitBounds(markerGroup.getBounds(), { padding: [42, 42], maxZoom: 11 });
+            return;
+          }
+
+          const cityItems = validItems.filter(function(item) {
+            return item.city && item.city.toLowerCase() === view;
+          });
+          zoomToItems(map, cityItems);
+        });
+      });
+
+      renderOpportunityList(validItems, markers, map);
+    } catch (error) {
+      mapListEl.innerHTML = '<div class="map-empty">Map locations could not be loaded. Check <code>opportunities-map.json</code> and view this page through a local or hosted web server.</div>';
+    }
+  }
+
+  loadOpportunitiesMap();
 </script>
 <script src="newsletter-delay.js"></script>
 

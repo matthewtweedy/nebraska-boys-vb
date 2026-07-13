@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nebraska Boys Volleyball — Event Check-In</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy: #16233F;
+    --navy-deep: #0E1830;
+    --orange: #FF6B35;
+    --gold: #E8B94E;
+    --chalk: #F5F3EC;
+    --slate: #8B96AC;
+    --green: #4C9A6A;
+    --line: rgba(245,243,236,0.12);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: var(--navy-deep);
+    background-image:
+      linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 420px);
+    color: var(--chalk);
+    font-family: 'Work Sans', sans-serif;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  .court-lines{
+    position:fixed; inset:0; pointer-events:none; z-index:0; opacity:0.06;
+    background-image:
+      repeating-linear-gradient(0deg, transparent 0 79px, var(--chalk) 79px 80px),
+      repeating-linear-gradient(90deg, transparent 0 79px, var(--chalk) 79px 80px);
+  }
+  .wrap{ position:relative; z-index:1; max-width:820px; margin:0 auto; padding: 40px 20px 80px; }
+
+  header{ text-align:center; margin-bottom: 36px; }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace; font-size:12px; letter-spacing:0.18em;
+    color: var(--orange); text-transform:uppercase; margin-bottom:10px;
+  }
+  h1{
+    font-family:'Anton', sans-serif; font-weight:400; letter-spacing:0.01em;
+    font-size: clamp(32px, 7vw, 52px); line-height:1.02; margin:0 0 8px;
+    text-transform:uppercase;
+  }
+  h1 span{ color: var(--orange); }
+  .sub{ color: var(--slate); font-size:15px; max-width:480px; margin:0 auto; }
+
+  .card{
+    background: rgba(245,243,236,0.04);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding: 24px;
+    margin-bottom: 22px;
+  }
+
+  .field-row{ display:flex; gap:14px; flex-wrap:wrap; }
+  .field{ flex:1 1 200px; }
+  label{
+    display:block; font-family:'JetBrains Mono', monospace; font-size:11px;
+    letter-spacing:0.1em; text-transform:uppercase; color: var(--slate); margin-bottom:8px;
+  }
+  input, select{
+    width:100%; background: var(--navy-deep); border:1px solid var(--line);
+    color: var(--chalk); font-family:'Work Sans', sans-serif; font-size:16px;
+    padding: 12px 14px; border-radius:8px; outline:none;
+    transition: border-color 0.15s;
+  }
+  input:focus, select:focus{ border-color: var(--orange); }
+  input::placeholder{ color:#5b6478; }
+
+  .section-label{
+    font-family:'JetBrains Mono', monospace; font-size:12px; letter-spacing:0.14em;
+    text-transform:uppercase; color: var(--slate); margin: 34px 0 14px; text-align:center;
+  }
+
+  .events{ display:grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap:16px; }
+
+  .event-card{
+    background: rgba(245,243,236,0.04);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding: 20px;
+    display:flex; flex-direction:column; gap:12px;
+    cursor:pointer;
+    transition: border-color 0.15s, transform 0.1s, background 0.15s;
+    position:relative;
+    text-align:left;
+  }
+  .event-card:hover{ border-color: rgba(255,107,53,0.5); transform: translateY(-2px); }
+  .event-card:active{ transform: translateY(0px) scale(0.99); }
+  .event-card.checked-in{ border-color: var(--green); background: rgba(76,154,106,0.08); }
+  .event-card:disabled{ cursor:not-allowed; opacity:0.6; }
+
+  .event-city{ font-family:'Anton', sans-serif; font-size:22px; text-transform:uppercase; letter-spacing:0.01em; }
+  .event-meta{ font-size:13px; color: var(--slate); line-height:1.5; }
+
+  .scoreboard{
+    display:flex; align-items:baseline; gap:8px; margin-top:auto; padding-top:10px;
+    border-top:1px dashed var(--line);
+  }
+  .count{
+    font-family:'JetBrains Mono', monospace; font-weight:700; font-size:30px;
+    color: var(--gold); min-width: 1.2em; display:inline-block;
+    transition: transform 0.25s ease;
+  }
+  .count.bump{ transform: scale(1.3); color: var(--orange); }
+  .count-label{ font-size:12px; color: var(--slate); font-family:'JetBrains Mono', monospace; letter-spacing:0.06em; }
+
+  .tag{
+    position:absolute; top:14px; right:14px; font-family:'JetBrains Mono', monospace;
+    font-size:10px; letter-spacing:0.08em; text-transform:uppercase;
+    background: var(--green); color: var(--navy-deep); padding:3px 8px; border-radius:20px;
+    display:none;
+  }
+  .event-card.checked-in .tag{ display:inline-block; }
+
+  .status{
+    text-align:center; font-family:'JetBrains Mono', monospace; font-size:13px;
+    color: var(--slate); margin-top:22px; min-height: 20px;
+  }
+  .status.ok{ color: var(--green); }
+  .status.err{ color: var(--orange); }
+
+  footer{ text-align:center; margin-top:50px; color:#5b6478; font-size:12px; }
+</style>
+</head>
+<body>
+<div class="court-lines"></div>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">#NEBoysVB &middot; Check In</div>
+    <h1>Every Boy Finds<br><span>His Game.</span></h1>
+    <p class="sub">Enter your name and grade, then tap the event you're coming to. That's it — you're on the roster.</p>
+  </header>
+
+  <div class="card">
+    <div class="field-row">
+      <div class="field">
+        <label for="playerName">Name</label>
+        <input id="playerName" type="text" placeholder="First and last name" autocomplete="name">
+      </div>
+      <div class="field">
+        <label for="playerGrade">Grade</label>
+        <select id="playerGrade">
+          <option value="">Select grade</option>
+          <option>3rd</option><option>4th</option><option>5th</option>
+          <option>6th</option><option>7th</option><option>8th</option>
+          <option>9th</option><option>10th</option><option>11th</option><option>12th</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">Tap Your Event</div>
+
+  <div class="events" id="eventsGrid"></div>
+
+  <div class="status" id="status"></div>
+
+  <footer>Nebraska Boys Volleyball is a program of Nebraska Volleyball Development Association, a 501(c)(3) nonprofit.</footer>
+</div>
+
+<script>
+  // ── CONFIG ────────────────────────────────────────────────────────────
+  // Paste your deployed Apps Script Web App URL here (see setup guide).
+  const GAS_URL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+
+  // Edit this list to match your real events. "id" must be unique and stable.
+  const EVENTS = [
+    { id: "sioux-city-open-gym", city: "Sioux City", venue: "Open Gym", date: "Ongoing" },
+    { id: "kearney-open-gym", city: "Kearney", venue: "Kearney SportsPlex", date: "Ongoing" },
+    { id: "omaha-clinic", city: "Omaha", venue: "Traveling Clinic", date: "TBD" },
+    { id: "lincoln-clinic", city: "Lincoln", venue: "Traveling Clinic", date: "TBD" },
+    { id: "columbus-clinic", city: "Columbus", venue: "Traveling Clinic", date: "TBD" },
+  ];
+  // ──────────────────────────────────────────────────────────────────────
+
+  const grid = document.getElementById('eventsGrid');
+  const statusEl = document.getElementById('status');
+  const checkedInThisSession = new Set();
+  let countsRequestId = 0;
+
+  function render(counts) {
+    grid.innerHTML = '';
+    EVENTS.forEach(ev => {
+      const n = (counts && counts[ev.id]) || 0;
+      const btn = document.createElement('button');
+      btn.className = 'event-card' + (checkedInThisSession.has(ev.id) ? ' checked-in' : '');
+      btn.dataset.eventId = ev.id;
+      btn.innerHTML = `
+        <span class="tag">You're in</span>
+        <div class="event-city">${ev.city}</div>
+        <div class="event-meta">${ev.venue}<br>${ev.date}</div>
+        <div class="scoreboard">
+          <span class="count" data-count>${n}</span>
+          <span class="count-label">participant${n === 1 ? '' : 's'}</span>
+        </div>`;
+      btn.addEventListener('click', () => checkIn(ev, btn));
+      grid.appendChild(btn);
+    });
+  }
+
+  function bump(btn) {
+    const countEl = btn.querySelector('[data-count]');
+    const label = btn.querySelector('.count-label');
+    const newVal = parseInt(countEl.textContent, 10) + 1;
+    countEl.textContent = newVal;
+    label.textContent = `participant${newVal === 1 ? '' : 's'}`;
+    countEl.classList.add('bump');
+    setTimeout(() => countEl.classList.remove('bump'), 250);
+  }
+
+  async function checkIn(ev, btn) {
+    const name = document.getElementById('playerName').value.trim();
+    const grade = document.getElementById('playerGrade').value;
+
+    if (!name || !grade) {
+      statusEl.textContent = 'Enter your name and grade first.';
+      statusEl.className = 'status err';
+      document.getElementById('playerName').focus();
+      return;
+    }
+    if (checkedInThisSession.has(ev.id)) {
+      statusEl.textContent = `You're already checked in to ${ev.city}.`;
+      statusEl.className = 'status';
+      return;
+    }
+    if (GAS_URL.includes('PASTE_YOUR')) {
+      statusEl.textContent = 'Backend not connected yet — see setup guide in the code comments.';
+      statusEl.className = 'status err';
+      return;
+    }
+
+    btn.disabled = true;
+    statusEl.textContent = 'Saving...';
+    statusEl.className = 'status';
+
+    try {
+      await fetch(GAS_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // avoids CORS preflight
+        body: JSON.stringify({ name, grade, event: ev.id, city: ev.city })
+      });
+      checkedInThisSession.add(ev.id);
+      btn.classList.add('checked-in');
+      bump(btn);
+      statusEl.textContent = `You're checked in for ${ev.city}. See you there, ${name.split(' ')[0]}!`;
+      statusEl.className = 'status ok';
+      setTimeout(loadCounts, 1200);
+    } catch (err) {
+      statusEl.textContent = 'Something went wrong — check your connection and try again.';
+      statusEl.className = 'status err';
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  function loadCountsJsonp() {
+    return new Promise((resolve, reject) => {
+      const callbackName = `nbvCounts${Date.now()}${countsRequestId++}`;
+      const script = document.createElement('script');
+      const separator = GAS_URL.includes('?') ? '&' : '?';
+      const timeout = window.setTimeout(() => {
+        cleanup();
+        reject(new Error('Counts request timed out.'));
+      }, 10000);
+
+      function cleanup() {
+        window.clearTimeout(timeout);
+        delete window[callbackName];
+        script.remove();
+      }
+
+      window[callbackName] = counts => {
+        cleanup();
+        resolve(counts || {});
+      };
+
+      script.onerror = () => {
+        cleanup();
+        reject(new Error('Counts request failed.'));
+      };
+      script.src = `${GAS_URL}${separator}callback=${encodeURIComponent(callbackName)}`;
+      document.body.appendChild(script);
+    });
+  }
+
+  async function loadCounts() {
+    if (GAS_URL.includes('PASTE_YOUR')) { render({}); return; }
+    try {
+      const counts = await loadCountsJsonp();
+      render(counts);
+    } catch (err) {
+      render({});
+    }
+  }
+
+  loadCounts();
+</script>
+</body>
+</html>

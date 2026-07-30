@@ -4,20 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Get Involved | Nebraska Boys Volleyball</title>
-  <meta name="description" content="Sign up for Nebraska Boys Volleyball low-cost clinics. Players, parents, coaches, and volunteers all welcome. No experience required.">
-  <meta name="keywords" content="sign up boys volleyball Nebraska, volunteer youth volleyball Nebraska, boys volleyball open gym signup, Nebraska volleyball clinic registration, youth volleyball volunteer Nebraska">
+  <meta name="description" content="Join Nebraska Boys Volleyball open gyms, clinics, and community events. Players, parents, coaches, and volunteers are welcome.">
+  <meta name="keywords" content="boys volleyball open gym Nebraska, youth volleyball Nebraska, Nebraska volleyball events, boys volleyball signup, youth volleyball volunteer Nebraska">
   <meta name="author" content="Nebraska Volleyball Development Association">
   <link rel="canonical" href="https://www.nebraskaboysvolleyball.org/get-involved.html">
 
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.nebraskaboysvolleyball.org/get-involved.html">
   <meta property="og:title" content="Get Involved | Nebraska Boys Volleyball">
-  <meta property="og:description" content="Sign up for low-cost volleyball clinics in your area. Players, parents, coaches, and volunteers all welcome. No experience required.">
+  <meta property="og:description" content="Find open gyms, clinics, and ways to get involved with boys volleyball across Nebraska.">
   <meta property="og:site_name" content="Nebraska Boys Volleyball">
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Get Involved | Nebraska Boys Volleyball">
-  <meta name="twitter:description" content="Sign up for low-cost volleyball clinics near you. No experience required.">
+  <meta name="twitter:description" content="Find open gyms, clinics, and ways to get involved with boys volleyball across Nebraska.">
 
   <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon.png">
   <link rel="apple-touch-icon" href="assets/favicon.png">
@@ -45,14 +45,21 @@
       opacity: 0.75;
       font-weight: 300;
     }
+    .involve-hero .btn-row {
+      margin-top: 28px;
+    }
     .involve-layout {
-      max-width: 860px;
+      max-width: 1000px;
       margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 340px;
-      gap: 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
       padding: 64px 40px;
-      align-items: start;
+    }
+    .involve-form-col {
+      order: 2;
+      width: 100%;
+      scroll-margin-top: 88px;
     }
     .involve-form-col h2 {
       font-family: 'Bebas Neue', sans-serif;
@@ -66,8 +73,9 @@
       margin-bottom: 24px;
     }
     .involve-sidebar {
-      display: flex;
-      flex-direction: column;
+      order: 1;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 20px;
     }
     .sidebar-card {
@@ -75,6 +83,7 @@
       border-radius: 8px;
       padding: 24px;
       border-top: 4px solid var(--red);
+      height: 100%;
     }
     .sidebar-card h3 {
       font-family: 'Bebas Neue', sans-serif;
@@ -92,11 +101,18 @@
       text-decoration: none;
       font-weight: 600;
     }
-    @media (max-width: 720px) {
+    @media (max-width: 900px) {
+      .involve-sidebar {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 560px) {
       .involve-layout {
-        grid-template-columns: 1fr;
         padding: 40px 20px;
         gap: 32px;
+      }
+      .involve-sidebar {
+        grid-template-columns: 1fr;
       }
       .involve-hero {
         padding-left: 20px;
@@ -129,27 +145,32 @@
   <div class="involve-hero-inner">
     <div class="hero-tag">Join Nebraska Boys Volleyball</div>
     <h1>Show Up.<br>That's All It Takes.</h1>
-    <p>Players, parents, coaches, volunteers &mdash; everyone's welcome. Fill out the form and we'll reach out when clinics come to your area.</p>
+    <p>Come play, help out, or stay connected. Our open gyms and events give boys of all experience levels a place to get on the court.</p>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="opportunities.html">Find an Open Gym</a>
+      <a class="btn btn-outline" href="#stay-connected">Stay Connected</a>
+    </div>
   </div>
 </section>
 
 <div style="background: var(--off-white);">
   <section class="section" style="padding-bottom:0;">
     <div class="section-inner">
-      <div class="section-label">Next Clinic</div>
-      <h2>Be First on the Invite List</h2>
-      <p>Our first event is planned for mid-June 2026. The exact gym and time are being finalized now, so the best move is to sign up and choose your city.</p>
+      <div class="section-label">Open Gyms & Events</div>
+      <h2>There Is a Place for You</h2>
+      <p>We host open gyms and other volleyball opportunities in communities across Nebraska. Dates and locations change, so check the opportunities page for the latest details before heading to the gym.</p>
 
       <div class="event-grid">
         <div class="event-card featured">
-          <div class="event-date">Target Window: Mid-June 2026</div>
-          <h3>First Nebraska Boys Volleyball Clinic</h3>
+          <div class="event-date">Open to New and Experienced Players</div>
+          <h3>Nebraska Boys Volleyball Open Gyms</h3>
           <div class="event-meta">
-            <div><strong>Who:</strong> Boys, beginners welcome</div>
-            <div><strong>Tracks:</strong> 7th grade and under, 8th grade and above</div>
-            <div><strong>Cost:</strong> Low cost</div>
+            <div><strong>Who:</strong> Boys interested in learning and playing volleyball</div>
+            <div><strong>Experience:</strong> Beginners are welcome</div>
+            <div><strong>Details:</strong> Ages, cost, and registration vary by event</div>
           </div>
-          <p>Fill out the form below and we will send the confirmed clinic details when registration opens.</p>
+          <p>See current listings for dates, locations, age groups, and anything you need to know before attending.</p>
+          <a class="btn btn-primary" href="opportunities.html">View Current Opportunities</a>
         </div>
       </div>
     </div>
@@ -158,29 +179,27 @@
   <div class="involve-layout">
 
     <!-- FORM COLUMN -->
-    <div class="involve-form-col">
-      <div class="section-label">Sign Up</div>
-      <h2>Get on the List</h2>
-      <p>Takes about 60 seconds. We'll send you clinic dates and locations near you &mdash; no spam, just volleyball.</p>
+    <div class="involve-form-col" id="stay-connected">
+      <div class="section-label">Stay Connected</div>
+      <h2>Get Volleyball Updates</h2>
+      <p>Tell us where you are and how you would like to be involved. We'll share relevant open gyms, clinics, and other opportunities as they become available.</p>
 
-      <!-- GOOGLE FORM EMBED -->
-      <!-- Replace the src URL below with your actual Google Form embed URL -->
-      <!-- To get it: open your form &rarr; &#8942; &rarr; Embed &rarr; copy the src from the iframe code -->
-      <!-- Conversion tracking note: if you move to a form tool that supports redirect URLs, send successful submissions to thank-you-signup.html or thank-you-volunteer.html. -->
       <div class="form-wrap">
         <iframe
-          src="https://forms.gle/QvEPisLkVAaxbDYGA"
+          src="https://tally.so/embed/VLXN4M?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
           width="100%"
+          height="760"
           frameborder="0"
           marginheight="0"
           marginwidth="0"
-          title="Nebraska Boys Volleyball Sign Up Form">
+          title="Nebraska Boys Volleyball interest form">
           Loading&hellip;
         </iframe>
       </div>
 
       <p style="font-size:0.82rem; color:var(--mid-gray); margin-top:12px;">
-        Prefer email? Reach us at <a href="mailto:info@nebraskaboysvolleyball.org" style="color:var(--red);">info@nebraskaboysvolleyball.org</a>
+        Form not loading? <a href="https://tally.so/r/VLXN4M" target="_blank" rel="noopener" style="color:var(--red);">Open it in a new tab</a>
+        or email <a href="mailto:info@nebraskaboysvolleyball.org" style="color:var(--red);">info@nebraskaboysvolleyball.org</a>.
       </p>
     </div>
 
@@ -189,12 +208,12 @@
 
       <div class="sidebar-card">
         <h3>Players</h3>
-        <p>Any skill level welcome. Junior track (7th grade & under) or Senior track (8th grade & above). Low-cost and beginner-friendly.</p>
+        <p>Come get reps, learn the game, and meet other players. Beginners and experienced players are welcome; check each listing for its age range.</p>
       </div>
 
       <div class="sidebar-card">
         <h3>Parents</h3>
-        <p>Want to stay in the loop on clinic dates near you? Sign up and we'll keep you informed. Volunteer roles available too.</p>
+        <p>Sign up to hear about open gyms, clinics, and other opportunities near you. Volunteer roles are available too.</p>
       </div>
 
       <div class="sidebar-card" style="border-top-color: var(--red);">
@@ -219,18 +238,18 @@
     <div class="card-grid">
       <div class="card">
         <div class="card-icon">1</div>
-        <h3>Sign Up</h3>
-        <p>Fill out the form above. Tell us your city and whether you're a player, parent, or volunteer.</p>
+        <h3>Find an Opportunity</h3>
+        <p>Check the latest listings and choose an open gym or event that works for your player.</p>
       </div>
       <div class="card">
         <div class="card-icon">2</div>
-        <h3>Get the Details</h3>
-        <p>We'll email you clinic dates and locations when programming comes to your area.</p>
+        <h3>Check the Details</h3>
+        <p>Review the date, location, age group, cost, and registration instructions for that event.</p>
       </div>
       <div class="card">
         <div class="card-icon">3</div>
         <h3>Show Up</h3>
-        <p>Come to the gym. No paperwork. No fees. No experience required. Just walk in ready to play.</p>
+        <p>Come ready to play, learn, and meet the growing boys volleyball community in Nebraska.</p>
       </div>
     </div>
   </div>
